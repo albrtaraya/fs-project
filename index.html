@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Task Manager</title>
+
+   <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 30px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            width: 250px;
+            font-size: 16px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            list-style: none;
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 8px;
+            /* Places the task text and delete button on opposite sides */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Delete button styles */
+        .delete-btn {
+            padding: 6px 10px;
+            font-size: 14px;
+        }
+   </style>
+</head>
+<body>
+    <!-- Aquí se colocará todo el contenido visible de la página -->
+    <h1>Task Manager</h1>
+    <input
+        type="text"
+        id="taskInput"
+        placeholder="escribe una tarea"
+    >
+    <button id="addTaskBtn">Agregar Tarea</button>
+    <ul id="taskList">
+        <li>Estudiar JavaScript</li>
+    </ul>
+
+    <script>
+        /* Guardamos una referencia al campo de texto */
+        const taskInput = document.getElementById("taskInput");
+
+        /* Guardamos una referencia al botón */
+        const addTaskBtn = document.getElementById("addTaskBtn");
+
+        /* Guardamos una referencia a la lista de tareas */
+        const taskList = document.getElementById("taskList");
+
+        /* Función que agrega una nueva tarea a la lista */
+        const addTask = () => {
+            /* Obtenemos el texto escrito por el usuario.
+               trim() elimina espacios innecesarios al inicio y al final */
+            const taskText = taskInput.value.trim();
+
+            /* Verificamos que el usuario no intente agregar una tarea vacía */
+            if (taskText === "") {
+                return;
+            }
+
+            /* Creamos un nuevo elemento <li> */
+            const li = document.createElement("li");
+
+            /* Creamos un <span> para contener el texto de la tarea */
+            const taskSpan = document.createElement("span");
+
+            /* Colocamos el texto del usuario dentro del span */
+            taskSpan.textContent = taskText;
+
+            /* Creamos el botón de eliminar */
+            const deleteButton = document.createElement("button");
+
+            /* Texto que se mostrará en el botón */
+            deleteButton.textContent = "Eliminar";
+
+            /* Agregamos la clase CSS al botón de eliminar */
+            deleteButton.classList.add("delete-btn");
+
+            /* Escuchamos el click del botón eliminar */
+            deleteButton.addEventListener("click", () => {
+                /* Elimina el <li> completo de la lista */
+                li.remove();
+            });
+
+            /* Agregamos el texto al <li> */
+            li.appendChild(taskSpan);
+
+            /* Agregamos el botón eliminar al <li> */
+            li.appendChild(deleteButton);
+
+            /* Agregamos la nueva tarea dentro de la lista */
+            taskList.appendChild(li);
+
+            /* Limpiamos el campo de texto después de agregar la tarea */
+            taskInput.value = "";
+
+            /* Devolvemos el cursor al campo de texto */
+            taskInput.focus();
+        };
+
+        /* Escuchamos el evento click del botón.
+           Cuando el usuario hace clic, se ejecuta addTask */
+        addTaskBtn.addEventListener("click", addTask);
+
+        /* Permite agregar una tarea presionando la tecla Enter */
+        taskInput.addEventListener("keydown", (event) => {
+            /* Verificamos si la tecla presionada fue Enter */
+            if (event.key === "Enter") {
+                addTask();
+            }
+        });
+    </script>
+</body>
+</html>
